@@ -20,26 +20,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <p>An example of <code>&lt;birch-contact-card&gt;</code>:</p>
 
-    <p>Make words! <button id="saybtn">Say Something</button></p>
-    <p>Make lasers! <button id="laserbtn">Fire lasers</button></p>
+    <button id="open">Open</button>
+    <button id="close">Close</button>
+    <button id="changeData">Change Data</button>
 
-    <birch-contact-card author='{"name": "Lord Meowser", "image": "http://lorempixel.com/g/300/200/cats/"}' fancy>
-      <h2>Hello birch-contact-card</h2>
+    <birch-contact-card>
     </birch-contact-card>
 
     <script>
-      var seedElement = document.querySelector('birch-contact-card');
-
-      document.querySelector('#saybtn').addEventListener('click', function() {
-        alert(seedElement.sayHello('Hallo!'));
+      var el = document.querySelector('birch-contact-card');
+      el.data = {"id":"cis.user.MMMS-LR4F","cpUserId":"MMVG-KK9","contactName":"matthewowenliechty1","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":null,"fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
+      
+      var open = document.getElementById('open');
+      open.addEventListener('click', function(){
+        el.show();
       });
 
-      document.querySelector('#laserbtn').addEventListener('click', function() {
-        seedElement.fireLasers();
+      var close = document.getElementById('close');
+      close.addEventListener('click', function(){
+        el.close();
       });
 
-      document.addEventListener("birch-contact-card-lasers", function(e) {
-        console.log(e.detail.sound);
+      var changeData = document.getElementById('changeData');
+      changeData.addEventListener('click', function(){
+        el.data = {"id":"cis.user.MMMM-JSJQ","cpUserId":"MMY8-X3M","contactName":"WenH","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null}
       });
 
     </script>
