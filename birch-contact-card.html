@@ -11,7 +11,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../dialog-el/dialog-el.html">
 <link rel="import" href="../birch-message/birch-message.html">
-<link rel="import" href="../fs-styles/fs-styles-full.html">
+<link rel="import" href="../fs-button/fs-button.html">
+<link rel="import" href="../fs-styles/fs-styles.html">
 
 <!--
 An element providing a solution to no problem in particular.
@@ -113,7 +114,7 @@ Example:
           </div>   
         </div>
         <div class="footer">
-          <button type="button" class="fs-button fs-button--minor fs-contact-card__send-button" on-tap="_popMessageSend">Send a Message</button>
+          <button is='fs-button' type="button" option="minor" on-tap="_popMessageSend">Send a Message</button>
         </div>
       </div>
     </dialog-el>

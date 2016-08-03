@@ -20,11 +20,15 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
     "dialog-el": "jshcrowthe/dialog-el",
-    "fs-styles": "liechtym/fs-styles#full-styles-component",
+    "fs-button": "liechtym/fs-button",
+    "fs-styles": "fs-webdev/fs-styles",
     "birch-message": "FamilySearchElements/birch-message"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "^4.0.0"
+  },
+  "resolutions": {
+    "polymer": "^1.2.1"
   }
 }
