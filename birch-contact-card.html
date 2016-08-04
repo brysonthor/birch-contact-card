@@ -9,7 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../dialog-el/dialog-el.html">
+<link rel="import" href="../cedar-dialog/cedar-dialog.html">
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
@@ -46,11 +46,11 @@ Example:
         position: relative;
       }
 
-      #innerDialog .heading {
+      .heading {
         position: relative;
       }
 
-      #innerDialog .body {
+      #innerDialog.body {
         position: relative;
       }
 
@@ -68,56 +68,54 @@ Example:
 
     </style>
     <birch-message id="message"></birch-message>
-    <dialog-el id="dialogBox">
-      <div id="innerDialog">
-        <div class="heading"><h4>[[data.contactName]]</h4></div>
-        <div class="body">
-          <div class="line-1">
-            <div class="left-col">
-              <p class="name-heading">Full Name</p>
-            </div>
-            <div class="right-col">
-              <span class="name">[[data.fullName]]</span>
-            </div>
+    <cedar-dialog id="dialogBox">
+      <h4 class="heading" header>[[data.contactName]]</h4>
+      <div id="innerDialog" class="body" content>
+        <div class="line-1">
+          <div class="left-col">
+            <p class="name-heading">Full Name</p>
           </div>
-          <div class="line-2">
-            <div class="left-col">
-              <p class="name-heading">Contact Name</p>
-            </div>
-            <div class="right-col">
-              <span class="name">[[data.contactName]]</span>
-            </div>
+          <div class="right-col">
+            <span class="name">[[data.fullName]]</span>
           </div>
-          <div class="line-3">
-            <div class="left-col">
-              <p class="name-heading">Email Address</p>
-            </div>
-            <div class="right-col">
-              <span class="name">[[data.email]]</span>
-            </div>
-          </div>   
-          <div class="line-4">
-            <div class="left-col">
-              <p class="name-heading">Phone Number</p>
-            </div>
-            <div class="right-col">
-              <span class="name">[[data.phoneNumber]]</span>
-            </div>
-          </div>
-          <div class="line-5">
-            <div class="left-col">
-              <p class="name-heading">Mailing Address</p>
-            </div>
-            <div class="right-col">
-              <span class="name">[[data.mailingAddress]]</span>
-            </div>
-          </div>   
         </div>
-        <div class="footer">
-          <button is='fs-button' type="button" option="minor" on-tap="_popMessageSend">Send a Message</button>
+        <div class="line-2">
+          <div class="left-col">
+            <p class="name-heading">Contact Name</p>
+          </div>
+          <div class="right-col">
+            <span class="name">[[data.contactName]]</span>
+          </div>
         </div>
+        <div class="line-3">
+          <div class="left-col">
+            <p class="name-heading">Email Address</p>
+          </div>
+          <div class="right-col">
+            <span class="name">[[data.email]]</span>
+          </div>
+        </div>   
+        <div class="line-4">
+          <div class="left-col">
+            <p class="name-heading">Phone Number</p>
+          </div>
+          <div class="right-col">
+            <span class="name">[[data.phoneNumber]]</span>
+          </div>
+        </div>
+        <div class="line-5">
+          <div class="left-col">
+            <p class="name-heading">Mailing Address</p>
+          </div>
+          <div class="right-col">
+            <span class="name">[[data.mailingAddress]]</span>
+          </div>
+        </div>   
       </div>
-    </dialog-el>
+      <div class="footer" footer>
+        <button is='fs-button' type="button" option="minor" on-tap="_popMessageSend">Send a Message</button>
+      </div>
+    </cedar-dialog>
   </template>
 
   <script>
@@ -136,7 +134,7 @@ Example:
       },
 
       show: function() {
-        this.$.dialogBox.show();
+        this.$.dialogBox.open();
       },
 
       close: function() {
