@@ -13,27 +13,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>birch-contact-card Demo</title>
+    <script>
+      /* this script must run before Polymer is imported */
+      window.Polymer = {
+        dom: 'shadow'
+      };
+    </script>
     <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="../birch-contact-card.html">
+    <link rel="import" href="../fs-button/fs-button.html">
   </head>
   <body unresolved>
 
     <p>An example of <code>&lt;birch-contact-card&gt;</code>:</p>
 
-    <button id="open">Open</button>
-    <button id="close">Close</button>
-    <button id="changeData">Change Data</button>
+    <button is='fs-button' id="close">Close</button>
+    <button is='fs-button' id="changeData">Change Data</button>
+    <button is='fs-button' id="open">Open</button>
 
     <birch-contact-card>
     </birch-contact-card>
-
+    <style>
+      #open {
+        position: relative;
+        display: block;
+        margin-top: 300px;
+      }
+    </style>
     <script>
       var el = document.querySelector('birch-contact-card');
-      el.data = {"id":"cis.user.MMMS-LR4F","cpUserId":"MMVG-KK9","contactName":"matthewowenliechty1","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":null,"fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
-      
       var open = document.getElementById('open');
-      open.addEventListener('click', function(){
-        el.show();
+      var dataSet1 = {"id":"cis.user.MMMS-LR4F","cpUserId":"MMVG-KK9","contactName":"matthewowenliechty1","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":null,"fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
+      var dataSet2 = {"id":"cis.user.MMMM-JSJQ","cpUserId":"MMY8-X3M","contactName":"WenH","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
+
+      el.data = dataSet1;
+      
+      open.addEventListener('click', function(e){
+        el.open(e);
       });
 
       var close = document.getElementById('close');
@@ -43,7 +59,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       var changeData = document.getElementById('changeData');
       changeData.addEventListener('click', function(){
-        el.data = {"id":"cis.user.MMMM-JSJQ","cpUserId":"MMY8-X3M","contactName":"WenH","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null}
+        el.data = (el.data.id = "cis.user.MMMS-LR4F") ? dataSet2 : dataSet1;
       });
 
     </script>

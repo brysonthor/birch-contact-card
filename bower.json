@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
-    "cedar-dialog": "FamilySearchElements/cedar-dialog",
+    "cedar-dialog": "FamilySearchElements/cedar-dialog#adding-dialog",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "fs-webdev/fs-styles",
     "birch-message": "FamilySearchElements/birch-message"
@@ -29,6 +29,7 @@
     "web-component-tester": "^4.0.0"
   },
   "resolutions": {
-    "polymer": "^1.2.1"
+    "polymer": "^1.2.1",
+    "cedar-dialog": "adding-dialog"
   }
 }
