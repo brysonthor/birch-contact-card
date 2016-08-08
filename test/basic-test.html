@@ -16,17 +16,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
-    <!-- Step 1: import the element to test -->
     <link rel="import" href="../birch-contact-card.html">
   </head>
   <body>
 
-    <!-- You can use the document as a place to set up your fixtures. -->
     <test-fixture id="birch-contact-card-fixture">
       <template>
-        <birch-contact-card>
-          <h2>birch-contact-card</h2>
-        </birch-contact-card>
+        <birch-contact-card></birch-contact-card>
       </template>
     </test-fixture>
 
@@ -34,10 +30,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       suite('<birch-contact-card>', function() {
         var myEl;
         var cedarDialog;
+        var birchMessageDialog;
 
         setup(function() {
           myEl = fixture('birch-contact-card-fixture');
           cedarDialog = Polymer.dom(myEl.root).querySelector('#dialogBox');
+          var birchMessage = Polymer.dom(myEl.root).querySelector('#message');
+          birchMessageDialog = Polymer.dom(birchMessage.root).querySelector('#dialogBox');
         });
 
         test('should open cedar dialog', function (done) {
@@ -54,12 +53,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           done();
         });
 
-        // test('should open cedar dialog', function (done) {
-        //   var opened = sinon.spy(cedarDialog, 'open');
-        //   myEl.open();
-        //   expect(opened.calledOnce).to.be.true;
-        //   done();
-        // });
+        test('should open send a message modal', function (done) {
+          var opened = sinon.spy(birchMessageDialog, 'open');
+          myEl._showSendMessage();
+          expect(opened.calledOnce).to.be.true;
+          done();
+        });
 
       });
     </script>
