@@ -19,6 +19,8 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
+    "wc-i18n": "jshcrowthe/wc-i18n#^1.1.0",
+    "oak-i18n-behavior": "FamilySearchElements/oak-i18n-behavior",
     "cedar-dialog": "FamilySearchElements/cedar-dialog#adding-dialog",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "fs-webdev/fs-styles",

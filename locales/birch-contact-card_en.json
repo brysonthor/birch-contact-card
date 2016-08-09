@@ -1,0 +1,9 @@
+{
+  "send_message": "Send a Message",
+  "error": "Unable to read contact information. Please try again later.",
+  "contact_name_label": "Contact Name",
+  "email_address_label": "E-mail Address",
+  "full_name_label": "Full Name",
+  "mailing_address_label": "Mailing Address",
+  "phone_number_label": "Phone Number"
+}

@@ -28,7 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p>An example of <code>&lt;birch-contact-card&gt;</code>:</p>
 
     <button is='fs-button' id="close">Close</button>
-    <button is='fs-button' id="changeData">Change Data</button>
+    <button is='fs-button' id="toggleData">Toggle Data</button>
     <button is='fs-button' id="open">Open</button>
 
     <birch-contact-card>
@@ -43,11 +43,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       var el = document.querySelector('birch-contact-card');
       var open = document.getElementById('open');
-      var dataSet1 = {"id":"cis.user.MMMS-LR4F","cpUserId":"MMVG-KK9","contactName":"matthewowenliechty1","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":null,"fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
+      var dataSet1 = {"id":"cis.user.MMMM-MM4J","cpUserId":"MMDZ-878","contactName":"heatonra227","displayName":null,"email":"phonyemail@hotmail.com","alternateEmail":null,"phoneNumber":"2348092394","mailingAddress":"123 Batman Lane.\nGotham","preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":"USA"};
       var dataSet2 = {"id":"cis.user.MMMM-JSJQ","cpUserId":"MMY8-X3M","contactName":"WenH","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
 
       el.data = dataSet1;
-      
+
       open.addEventListener('click', function(e){
         el.open(e);
       });
@@ -57,9 +57,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         el.close();
       });
 
-      var changeData = document.getElementById('changeData');
-      changeData.addEventListener('click', function(){
-        el.data = (el.data.id = "cis.user.MMMS-LR4F") ? dataSet2 : dataSet1;
+      var toggleData = document.getElementById('toggleData');
+      toggleData.addEventListener('click', function(){
+        el.data = (el.data.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
       });
 
     </script>

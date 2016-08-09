@@ -1,0 +1,9 @@
+{
+  "send_message": "傳送信息",
+  "error": "無法讀取聯絡資料。 請稍後再試。",
+  "contact_name_label": "聯絡名",
+  "email_address_label": "電子郵件地址",
+  "full_name_label": "全名",
+  "mailing_address_label": "郵寄地址",
+  "phone_number_label": "電話號碼"
+}

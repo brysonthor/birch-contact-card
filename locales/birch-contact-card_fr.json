@@ -1,0 +1,9 @@
+{
+  "send_message": "Envoyer un message",
+  "error": "Impossible de lire les coordonnées. Veuillez réessayer ultérieurement.",
+  "contact_name_label": "Nom de contact",
+  "email_address_label": "Adresse électronique",
+  "full_name_label": "Nom et prénoms",
+  "mailing_address_label": "Adresse postale",
+  "phone_number_label": "Numéro de téléphone"
+}

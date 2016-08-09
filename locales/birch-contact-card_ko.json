@@ -1,0 +1,9 @@
+{
+  "send_message": "메시지 발송",
+  "error": "연락처 정보를 읽을 수 없습니다. 나중에 다시 시도해 주십시오.",
+  "contact_name_label": "연락처 이름",
+  "email_address_label": "이메일 주소",
+  "full_name_label": "성명",
+  "mailing_address_label": "우편 주소",
+  "phone_number_label": "전화번호"
+}

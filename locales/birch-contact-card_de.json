@@ -1,0 +1,9 @@
+{
+  "send_message": "Nachricht abschicken",
+  "error": "Die Kontaktangaben können nicht gelesen werden. Bitte versuchen Sie es später noch einmal.",
+  "contact_name_label": "Kontaktname",
+  "email_address_label": "E-Mail-Adresse",
+  "full_name_label": "Vollständiger Name",
+  "mailing_address_label": "Postanschrift",
+  "phone_number_label": "Telefonnummer"
+}

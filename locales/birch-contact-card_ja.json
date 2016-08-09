@@ -1,0 +1,9 @@
+{
+  "send_message": "メッセージを送る",
+  "error": "連絡先情報を読み込むことができません。 あとで再試行してください。",
+  "contact_name_label": "連絡者名",
+  "email_address_label": "電子メールアドレス",
+  "full_name_label": "姓名",
+  "mailing_address_label": "郵送先",
+  "phone_number_label": "電話番号"
+}
