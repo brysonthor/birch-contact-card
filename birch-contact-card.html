@@ -9,6 +9,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
+<link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../wc-i18n/wc-i18n.html">
 <link rel="import" href="../cedar-dialog/cedar-dialog.html">
@@ -33,21 +36,37 @@ Example:
 @hero hero.svg
 -->
 
+<!--
+headers='{
+  "Authorization":"Bearer USYSF72A5130CD6251794110A6CABC4B3CB9_idses-int02.a.fsglobal.net",
+  "Accept": "application/json"
+}'
+-->
+
 <dom-module id="birch-contact-card">
   <style include='fs-styles'></style>
   <link rel="import" type="css" href="birch-contact-card.css">
   <template>
     <wc-i18n-src locale='[[lang]]' locale-dir='[[localeDir()]]' domain='birch-contact-card'></wc-i18n-src>
+    <iron-ajax id="getContactInfoReq"
+      url="[[ajaxBase]]/ftuser/contacts/[[contactCisId]]"
+      headers='[[authHeaders]]'
+      method="GET"
+      content-type="application/json"
+      handle-as="json"
+      on-response="_handleContactResponse"
+      on-error="_handleContactError"></iron-ajax>
     <birch-message id="message"></birch-message>
     <cedar-dialog id="dialogBox" horizontal-align="right" position-target="[[positionTarget]]" arrow>
-      <h4 class="heading" header>[[data.contactName]]</h4>
-      <div id="innerDialog" class="body" content>
+      <div class="spinner-icon" hidden="[[!loading]]"></div>
+      <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
+      <div id="innerDialog" class="body" content hidden="[[_error]]">
         <div class="line-1">
           <div class="left-col">
             <p class="name-heading"><small>Full Name</small></p>
           </div>
           <div class="right-col">
-            <span class="name">[[data.fullName]]</span>
+            <span class="name">[[contactData.fullName]]</span>
           </div>
         </div>
         <div class="line-2">
@@ -55,7 +74,7 @@ Example:
             <p class="name-heading"><small><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></small></p>
           </div>
           <div class="right-col">
-            <span class="name">[[data.contactName]]</span>
+            <span class="name">[[contactData.contactName]]</span>
           </div>
         </div>
         <div class="line-3">
@@ -63,7 +82,7 @@ Example:
             <p class="name-heading"><small><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></small></p>
           </div>
           <div class="right-col">
-            <span class="name"><a href$="mailto:{{data.email}}">[[data.email]]</a></span>
+            <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
           </div>
         </div>   
         <div class="line-4">
@@ -71,7 +90,7 @@ Example:
             <p class="name-heading"><small><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></small></p>
           </div>
           <div class="right-col">
-            <span class="name">[[data.phoneNumber]]</small></span>
+            <span class="name">[[contactData.phoneNumber]]</small></span>
           </div>
         </div>
         <div class="line-5">
@@ -79,12 +98,17 @@ Example:
             <p class="name-heading"><small><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></small></p>
           </div>
           <div class="right-col">
-            <p id="address" class="name">{{data.mailingAddress}}</p>
+            <p id="address" class="name">{{contactData.mailingAddress}}</p>
           </div>
         </div>
         <div class="send-button">
           <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage"><wc-i18n key='birch-contact-card.send_message'></wc-i18n></button>
         </div>   
+      </div>
+      <div id="error" hidden="[[!_error]]">
+        <div class="fs-alert fs-alert--error">
+          <p><wc-i18n id="errorMessageText" key='birch-contact-card.error'</wc-i18n></p>
+        </div>
       </div>
     </cedar-dialog>
   </template>
@@ -94,28 +118,79 @@ Example:
       is: 'birch-contact-card',
 
       behaviors: [
+        OakAJAXBehavior,
         OakI18nBehavior,
         WCI18nBehavior
       ],
 
       properties: {
-        data: {
+        contactCisId: {
+          type: String,
+          observer: '_setDataRefresh'
+        },
+        contactData: {
           type: Object,
           value: function() { return {}; }
         },
+        dataRefresh: {
+          type: Boolean,
+          value: true
+        },
+        generateContactData: {
+          type: Boolean,
+          value: false
+        },
+        loading: {
+          type: Boolean,
+          value: false
+        },
         positionTarget: {
           type: Object
+        },
+        _error: {
+          type: Boolean,
+          value: false
         }
       },
+
       open: function(e) {
+        if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
         this.$.dialogBox.open(e);
       },
 
       close: function() {
         this.$.dialogBox.close();
       },
+
+      _handleContactResponse: function(e) {
+        this.contactData = e.detail.response;
+        this._toggleLoading(false);
+      },
+
+      _handleContactError: function(e) {
+        this._error = true;
+        this._toggleLoading(false);
+      },
+
+      _setDataRefresh: function () {
+        this.dataRefresh = true;
+      },
+
       _showSendMessage:function() {
-        this.$.message.show();
+        this.$.message.open();
+      },
+
+      _toggleLoading: function(boolean) {
+        this.loading = boolean;
+        var hideOrShow = (boolean) ? "hidden" : "visible"
+        this.$.innerDialog.style.visibility = hideOrShow;  
+        this.$.heading.style.visibility = hideOrShow;  
+      },
+
+      _triggerContactRequest: function() {
+        this._toggleLoading(true);
+        this.$.getContactInfoReq.generateRequest();
+        this.dataRefresh = false;
       }
 
     });
