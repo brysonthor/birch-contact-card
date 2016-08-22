@@ -57,7 +57,7 @@ headers='{
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
     <birch-message id="message"></birch-message>
-    <cedar-dialog id="dialogBox" horizontal-align="right" position-target="[[positionTarget]]" arrow>
+    <cedar-dialog id="dialogBox" position-target="[[positionTarget]]" vertical-align="{{verticalAlign}}" horizontal-align="[[horizontalAlign]]" arrow>
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">
@@ -140,12 +140,18 @@ headers='{
           type: Boolean,
           value: false
         },
+        horizontalAlign: {
+          type: String
+        },
         loading: {
           type: Boolean,
           value: false
         },
         positionTarget: {
           type: Object
+        },
+        verticalAlign: {
+          type: String
         },
         _error: {
           type: Boolean,
@@ -160,6 +166,10 @@ headers='{
 
       close: function() {
         this.$.dialogBox.close();
+      },
+
+      _supContact: function(val){
+        debugger;
       },
 
       _handleContactResponse: function(e) {

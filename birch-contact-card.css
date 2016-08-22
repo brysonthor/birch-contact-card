@@ -50,6 +50,18 @@
 #innerDialog .right-col {
   display: inline-block;
   vertical-align: top;
+  width: 260px;
+}
+
+@media all and (max-width: 767px) {
+  #innerDialog .left-col {
+    margin-right: 2%;
+    width: 37%;
+  }
+  #innerDialog .right-col {
+    width: 58%;
+  }
+
 }
 
 #innerDialog .send-button {
