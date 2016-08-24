@@ -57,7 +57,7 @@ headers='{
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
     <birch-message id="message"></birch-message>
-    <cedar-dialog id="dialogBox" position-target="[[positionTarget]]" vertical-align="{{verticalAlign}}" horizontal-align="[[horizontalAlign]]" arrow>
+    <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">
@@ -159,17 +159,28 @@ headers='{
         }
       },
 
+      ready: function() {
+        this.listen(window, 'resize', '_handleResize')
+      },
+
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        this.$.dialogBox.open(e);
+        this.positionTarget = e.currentTarget;
+        this.$.dialogBox.open();
       },
 
       close: function() {
         this.$.dialogBox.close();
       },
 
-      _supContact: function(val){
-        debugger;
+      _computePositionTarget: function (mobile, positionTarget) {
+        if (mobile) {
+          this.$.dialogBox.arrow = false;
+          this.horizontalAlign = undefined;
+          this.verticalAlign = undefined;
+        } else {
+          return positionTarget;
+        }
       },
 
       _handleContactResponse: function(e) {
@@ -184,6 +195,15 @@ headers='{
 
       _setDataRefresh: function () {
         this.dataRefresh = true;
+      },
+
+      _handleResize: function() {
+        this.debounce('resize-debouce-arrow', function() {
+          if (this.mobile) {
+            this.$.dialogBox.arrow = false;
+            this.$.dialogBox.updateArrow();
+          }
+        }, 300);
       },
 
       _showSendMessage:function() {
