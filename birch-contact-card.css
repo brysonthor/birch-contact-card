@@ -2,15 +2,17 @@
   display: block;
   box-sizing: border-box;
   --cedar-dialog: {
+    max-width: 440px !important;
     min-height: 350px !important;
     max-height: 650px !important;
   } 
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 520px) {
   :host {
     --cedar-dialog: {
       width: 80%;
+      max-width: 440px !important;
       min-height: 350px !important;
       max-height: 650px !important;
     }
