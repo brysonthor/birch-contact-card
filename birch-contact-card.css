@@ -66,6 +66,13 @@
   width: 260px;
 }
 
+#innerDialog .name {
+  display: inline-block;
+  width: 100%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 @media all and (max-width: 767px) {
   #innerDialog .left-col {
     margin-right: 2%;
