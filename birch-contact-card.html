@@ -56,7 +56,7 @@ headers='{
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
-    <birch-message id="message" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
+    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
     <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
