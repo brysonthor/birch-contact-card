@@ -36,13 +36,6 @@ Example:
 @hero hero.svg
 -->
 
-<!--
-headers='{
-  "Authorization":"Bearer USYSF72A5130CD6251794110A6CABC4B3CB9_idses-int02.a.fsglobal.net",
-  "Accept": "application/json"
-}'
--->
-
 <dom-module id="birch-contact-card">
   <style include='fs-styles'></style>
   <link rel="import" type="css" href="birch-contact-card.css">
@@ -63,7 +56,7 @@ headers='{
       <div id="innerDialog" class="body" content hidden="[[_error]]">
         <div class="line-1">
           <div class="left-col">
-            <p class="name-heading"><small>Full Name</small></p>
+            <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
           </div>
           <div class="right-col">
             <span class="name">[[contactData.fullName]]</span>

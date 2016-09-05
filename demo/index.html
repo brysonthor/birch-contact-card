@@ -31,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <button is='fs-button' id="toggleData">Toggle Data</button>
     <button is='fs-button' id="open">Open</button>
 
-    <birch-contact-card generate-contact-data contact-cis-id="cis.user.MMMM-MM4J">
+    <birch-contact-card>
     </birch-contact-card>
     <style>
       #open {
@@ -49,6 +49,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // el.contactData = dataSet1;
 
       open.addEventListener('click', function(e){
+        if (!el.contactData || !el.contactData.id) el.contactData = dataSet1
         el.open(e);
       });
 
@@ -59,8 +60,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       var toggleData = document.getElementById('toggleData');
       toggleData.addEventListener('click', function(){
-        // el.contactData = (el.data.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
-        el.contactCisId = (el.contactCisId == "cis.user.MMMM-MM4J") ? "cis.user.MMMM-6V9K" :  "cis.user.MMMM-MM4J";
+        el.contactData = (el.contactData.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
+        // el.contactCisId = (el.contactCisId == "cis.user.MMMM-MM4J") ? "cis.user.MMMM-6V9K" :  "cis.user.MMMM-MM4J";
       });
 
     </script>
