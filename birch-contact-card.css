@@ -14,7 +14,14 @@
       width: 80%;
       max-width: 440px !important;
       min-height: 350px !important;
-      max-height: 650px !important;
+      max-height: 367px !important;
+      top: 60px !important;
+      bottom: 60px !important;
+      margin: inherit !important;
+      margin-top: 60px !important;
+      left: 50% !important;
+      right: inherit !important;
+      margin-left: -43.5% !important;
     }
   }
 }

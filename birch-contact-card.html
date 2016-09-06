@@ -158,7 +158,7 @@ Example:
 
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        this.positionTarget = e.currentTarget;
+        if (e) this.positionTarget = e.currentTarget;
         this.$.dialogBox.open();
       },
 

@@ -49,8 +49,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // el.contactData = dataSet1;
 
       open.addEventListener('click', function(e){
-        if (!el.contactData || !el.contactData.id) el.contactData = dataSet1
-        el.open(e);
+        if (!el.contactData || !el.contactData.id) el.contactData = dataSet1;
+        el.positionTarget = open;
+        el.open();
       });
 
       var close = document.getElementById('close');
