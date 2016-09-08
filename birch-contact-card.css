@@ -2,9 +2,8 @@
   display: block;
   box-sizing: border-box;
   --cedar-dialog: {
-    max-width: 440px !important;
-    min-height: 350px !important;
-    max-height: 650px !important;
+    max-width: 440px;
+    padding: 0px;
   } 
 }
 
@@ -12,9 +11,6 @@
   :host {
     --cedar-dialog: {
       width: 80%;
-      max-width: 440px !important;
-      min-height: 350px !important;
-      max-height: 367px !important;
       top: 60px !important;
       bottom: 60px !important;
       margin: inherit !important;
@@ -31,13 +27,17 @@
   margin-top: 33px;
 }
 
+#scrollable {
+}
+
 #error {
   height:300px;
 }
 
-.heading {
+#dialogBox .heading {
   position: relative;
   height: 24px;
+  margin-top:10px;
 }
 
 .spinner-icon {
@@ -63,14 +63,14 @@
   display: inline-block;
   margin-right: 15px;
   text-align: right;
-  width: 114px;
+  width: 104px;
   height: 39px;
 }
 
 #innerDialog .right-col {
   display: inline-block;
   vertical-align: top;
-  width: 260px;
+  width: 250px;
 }
 
 #innerDialog .name {
@@ -93,6 +93,7 @@
 
 #innerDialog .send-button {
   margin-top: 35px;
+  margin-bottom: 10px;
 }
 
 #innerDialog #address {

@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
+<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
 
 <!--
 A FamilySearch element providing a dialog for viewing a contributor's contact information.
@@ -51,9 +52,10 @@ Example:
       on-error="_handleContactError"></iron-ajax>
     <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
     <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
-      <div class="spinner-icon" hidden="[[!loading]]"></div>
-      <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
-      <div id="innerDialog" class="body" content hidden="[[_error]]">
+      <paper-dialog-scrollable id="scrollable">
+        <div class="spinner-icon" hidden="[[!loading]]"></div>
+        <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
+        <div id="innerDialog" class="body" content hidden="[[_error]]">     
         <div class="line-1">
           <div class="left-col">
             <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
@@ -96,13 +98,14 @@ Example:
         </div>
         <div class="send-button">
           <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage"><wc-i18n key='birch-contact-card.send_message'></wc-i18n></button>
-        </div>   
-      </div>
-      <div id="error" hidden="[[!_error]]">
-        <div class="fs-alert fs-alert--error">
-          <p><wc-i18n id="errorMessageText" key='birch-contact-card.error'></wc-i18n></p>
         </div>
-      </div>
+        </div>
+        <div id="error" hidden="[[!_error]]">
+          <div class="fs-alert fs-alert--error">
+            <p><wc-i18n id="errorMessageText" key='birch-contact-card.error'></wc-i18n></p>
+          </div>
+        </div>
+      </paper-dialog-scrollable>
     </cedar-dialog>
   </template>
 
@@ -153,7 +156,8 @@ Example:
       },
 
       ready: function() {
-        this.listen(window, 'resize', '_handleResize')
+        this.listen(window, 'resize', '_handleResize');
+        this.$.scrollable.dialogElement = Polymer.dom(this.$.dialogBox.root).querySelector('#modal');
       },
 
       open: function(e) {
