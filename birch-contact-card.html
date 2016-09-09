@@ -53,50 +53,50 @@ Example:
     <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
-      <div id="innerDialog" class="body" content hidden="[[_error]]">
-        <div class="line-1">
-          <div class="left-col">
-            <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
-          </div>
-          <div class="right-col">
-            <span class="name">[[contactData.fullName]]</span>
-          </div>
+      <div id="innerDialog" class="body" content hidden="[[_error]]">     
+      <div class="line-1">
+        <div class="left-col">
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
         </div>
-        <div class="line-2">
-          <div class="left-col">
-            <p class="name-heading"><small><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></small></p>
-          </div>
-          <div class="right-col">
-            <span class="name">[[contactData.contactName]]</span>
-          </div>
+        <div class="right-col">
+          <span class="name">[[contactData.fullName]]</span>
         </div>
-        <div class="line-3">
-          <div class="left-col">
-            <p class="name-heading"><small><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></small></p>
-          </div>
-          <div class="right-col">
-            <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
-          </div>
-        </div>   
-        <div class="line-4">
-          <div class="left-col">
-            <p class="name-heading"><small><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></small></p>
-          </div>
-          <div class="right-col">
-            <span class="name">[[contactData.phoneNumber]]</small></span>
-          </div>
+      </div>
+      <div class="line-2">
+        <div class="left-col">
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></small></p>
         </div>
-        <div class="line-5">
-          <div class="left-col">
-            <p class="name-heading"><small><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></small></p>
-          </div>
-          <div class="right-col">
-            <p id="address" class="name">{{contactData.mailingAddress}}</p>
-          </div>
+        <div class="right-col">
+          <span class="name">[[contactData.contactName]]</span>
         </div>
-        <div class="send-button">
-          <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage"><wc-i18n key='birch-contact-card.send_message'></wc-i18n></button>
-        </div>   
+      </div>
+      <div class="line-3">
+        <div class="left-col">
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></small></p>
+        </div>
+        <div class="right-col">
+          <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
+        </div>
+      </div>   
+      <div class="line-4">
+        <div class="left-col">
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></small></p>
+        </div>
+        <div class="right-col">
+          <span class="name">[[contactData.phoneNumber]]</small></span>
+        </div>
+      </div>
+      <div class="line-5">
+        <div class="left-col">
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></small></p>
+        </div>
+        <div class="right-col">
+          <p id="address" class="name">{{contactData.mailingAddress}}</p>
+        </div>
+      </div>
+      <div class="send-button">
+        <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage"><wc-i18n key='birch-contact-card.send_message'></wc-i18n></button>
+      </div>
       </div>
       <div id="error" hidden="[[!_error]]">
         <div class="fs-alert fs-alert--error">
@@ -153,7 +153,7 @@ Example:
       },
 
       ready: function() {
-        this.listen(window, 'resize', '_handleResize')
+        this.listen(window, 'resize', '_handleResize');
       },
 
       open: function(e) {
