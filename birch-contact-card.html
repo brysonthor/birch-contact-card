@@ -18,7 +18,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
-<link rel="import" href="../paper-dialog-scrollable/paper-dialog-scrollable.html">
 
 <!--
 A FamilySearch element providing a dialog for viewing a contributor's contact information.
@@ -155,7 +154,6 @@ Example:
 
       ready: function() {
         this.listen(window, 'resize', '_handleResize');
-        this.$.scrollable.dialogElement = Polymer.dom(this.$.dialogBox.root).querySelector('#modal');
       },
 
       open: function(e) {
