@@ -22,15 +22,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!--
 A FamilySearch element providing a dialog for viewing a contributor's contact information.
 
-Example:
+This element provides the dialog alone, and does not provide the button or link to open it. You must create the triggering element, and then create a click event on it that calls the open() method on the contact card. There are two ways the contact card can know what element it should position itself relative to. 1) You pass in the event object from a click event listener into the open method. 2) You select the button/link element from the DOM, and pass it into the positionTarget property of the contact card.
 
-    <birch-contact-card></birch-contact-card>
+This element is capable of handling data in 2 ways: generating it completely when passing in a cisID, and using data provided by the client. The following examples show how to use these different methods.
 
-Example:
+Example 1 (element generates data):
 
-    <birch-contact-card>
-      <h2>Hello birch-contact-card</h2>
+    <birch-contact-card generate-contact-data contactCisId="cis.user.MM9N-RS71">
     </birch-contact-card>
+    
+    <script>
+      var contactCard = document.querySelector('birch-contact-card');
+      contactCard.addEventListener('click', function(e){
+        contactCard.open(e);
+      });
+    </script>
+
+Example 2 (element uses passed in data.):
+    
+    <script>
+      var contactCard = document.querySelector('birch-contact-card');
+      function contributorNameClickHandler(e){
+        contactCard.contactData = {"id":"cis.user.MMMM-MM4J","cpUserId":"MMDZ-878","contactName":"heatonra227","displayName":null,"email":"phonyemail@hotmail.com","alternateEmail":null,"phoneNumber":"2348092394","mailingAddress":"123 Batman Lane.\nGotham","preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":"USA"};
+        
+        contactCard.open(e);
+      }
+
+    </script>
+
+    <birch-contact-card onclick="contributorNameClickHandler(event)"></birch-contact-card>
 
 @demo demo/index.html
 @hero hero.svg
@@ -117,32 +137,56 @@ Example:
       ],
 
       properties: {
+        /**
+         * If you set the generateContactData property to true, provide the contact's CIS ID in this property for the data request.
+        **/
         contactCisId: {
           type: String,
           observer: '_setDataRefresh'
         },
+        /**
+         * If you want to provide the data for the contact card instead of requesting it in this component, provide the data object on this property.
+        **/
         contactData: {
           type: Object,
           value: function() { return {}; }
         },
+        /**
+         * Mostly used to determine whether new data needs to be requested if the provided contact cisId is changed. You can set this to true if you want to re-request the data.
+        **/
         dataRefresh: {
           type: Boolean,
           value: true
         },
+        /** 
+         * Set on element if you want this element to request the contact data. 
+        **/
         generateContactData: {
           type: Boolean,
           value: false
         },
+        /** 
+         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "left", "right", "auto"
+        **/
         horizontalAlign: {
           type: String
         },
+        /**
+          * Is set to true if data is loading.
+        **/
         loading: {
           type: Boolean,
           value: false
         },
+        /**
+         * If you don't provide the event object for the click event on the open() method, provide the element you want the contact card to be positioned relative to on this property.
+        **/
         positionTarget: {
           type: Object
         },
+        /** 
+         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "top", "bottom", "auto"
+        **/
         verticalAlign: {
           type: String
         },
@@ -156,12 +200,18 @@ Example:
         this.listen(window, 'resize', '_handleResize');
       },
 
+      /**
+       * Method for opening the modal. If you want to pass in the click event object to determine the positionTarget element, provide it as an argument.
+      **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
         if (e) this.positionTarget = e.currentTarget;
         this.$.dialogBox.open();
       },
 
+      /** 
+       * Method for closing the modal.
+      **/
       close: function() {
         this.$.dialogBox.close();
       },
