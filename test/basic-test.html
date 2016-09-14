@@ -60,6 +60,93 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           done();
         });
 
+        test('data is requested', function(){
+          var server = sinon.fakeServer.create();
+          var handleResponse = sinon.spy(myEl, '_handleContactResponse');
+
+          server.respondWith(
+            'GET',
+            /\/ftuser\/contacts\//,
+            [
+              200,
+              { "Content-Type": "application/json" },
+              '{"success": true}'
+            ]
+          );
+
+          myEl.contactCisId = "cis.user.MM9N-RS78";
+          myEl.generateContactData = true;
+          myEl.open();
+
+          server.respond()
+
+          myEl.addEventListener('birch-contact-card-data-received', function(e){
+            expect(e.detail.success).to.be.true;
+            expect(handleResponse.calledOnce).to.be.true;
+          });
+        });
+
+        test('data is requested with error', function(done){
+          var server = sinon.fakeServer.create();
+          var handleError = sinon.spy(myEl, '_handleContactError');
+
+          server.respondWith(
+            'GET',
+            /\/ftuser\/contacts\//,
+            [
+              400,
+              { "Content-Type": "application/json" },
+              '{"success": false}'
+            ]
+          );
+
+          myEl.contactCisId = "cis.user.MM9N-RS78";
+          myEl.generateContactData = true;
+          myEl.open();
+          server.respond()
+
+          myEl.addEventListener('birch-contact-card-data-error', function(e){
+            expect(Boolean(e.detail.error)).to.be.true;
+            expect(handleError.calledOnce).to.be.true;
+            done();
+          });
+        });
+
+        test('returns position target if not mobile and unpositions if mobile', function(){
+          var button = document.createElement('button');
+          myEl.positionTarget = button;
+          var returned = myEl._computePositionTarget(false, button);
+          expect(button).to.equal(returned);
+
+          //Make sure dialog isn't positioned if it's on mobile and has no arrow .
+          var returned = myEl._computePositionTarget(true, button);
+          expect(returned).to.be.undefined;
+          expect(myEl.horizontalAlign).to.be.undefined;
+          expect(myEl.verticalAlign).to.be.undefined;
+          expect(myEl.$.dialogBox.arrow).to.be.false;
+        });
+
+        test('when a event object is passed in, it is used to determine position target', function(){
+          var mockE = {
+            currentTarget: "target"
+          }
+          myEl.open(mockE)
+          expect(myEl.positionTarget).to.equal(mockE.currentTarget)
+        });
+
+        test('returns correct users format array for data request', function() {
+          var generatedArr = myEl._generateUserIdsArray("mock-cis-id");
+          expect(generatedArr).to.eql(["mock-cis-id"])
+        });
+
+        test('resize listener calls updateArrow()', function(){
+          var dialogBox = myEl.$.dialogBox;
+          var updateArrow = sinon.spy(dialogBox, 'updateArrow');
+          myEl._handleResize();
+          myEl.flushDebouncer('resize-debouce-arrow');
+          expect(updateArrow.calledOnce).to.be.true;
+        });
+
       });
     </script>
 
