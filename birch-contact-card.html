@@ -28,7 +28,7 @@ This element is capable of handling data in 2 ways: generating it completely whe
 
 Example 1 (element generates data):
 
-    <birch-contact-card generate-contact-data contactCisId="cis.user.MM9N-RS71">
+    <birch-contact-card generate-contact-data contact-cis-id="cis.user.MM9N-RS71">
     </birch-contact-card>
     
     <script>
@@ -44,10 +44,8 @@ Example 2 (element uses passed in data.):
       var contactCard = document.querySelector('birch-contact-card');
       function contributorNameClickHandler(e){
         contactCard.contactData = {"id":"cis.user.MMMM-MM4J","cpUserId":"MMDZ-878","contactName":"heatonra227","displayName":null,"email":"phonyemail@hotmail.com","alternateEmail":null,"phoneNumber":"2348092394","mailingAddress":"123 Batman Lane.\nGotham","preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":"USA"};
-        
         contactCard.open(e);
       }
-
     </script>
 
     <birch-contact-card onclick="contributorNameClickHandler(event)"></birch-contact-card>
@@ -229,11 +227,13 @@ Example 2 (element uses passed in data.):
       _handleContactResponse: function(e) {
         this.contactData = e.detail.response;
         this._toggleLoading(false);
+        this.fire('birch-contact-card-data-received', e.detail.response)
       },
 
       _handleContactError: function(e) {
         this._error = true;
         this._toggleLoading(false);
+        this.fire('birch-contact-card-data-error', e.detail);
       },
 
       _setDataRefresh: function () {
