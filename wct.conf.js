@@ -12,7 +12,7 @@ module.exports = {
       ]
     },
     "local": {
-      "browsers": ["chrome"]
+      "browsers": ["chrome", "safari"]
     }
   }
 }
