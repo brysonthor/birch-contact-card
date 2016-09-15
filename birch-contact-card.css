@@ -28,9 +28,6 @@
   margin: 16px 9px 0px;
 }
 
-#scrollable {
-}
-
 #error {
   height:300px;
 }
@@ -93,7 +90,7 @@
 }
 
 #innerDialog .send-button {
-  margin-top: 28px;
+  margin-top: 16px;
   margin-bottom: 0px;
 }
 
