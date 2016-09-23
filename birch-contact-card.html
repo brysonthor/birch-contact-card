@@ -77,7 +77,7 @@ Example 2 (element uses passed in data.):
           <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
-          <span class="name">[[contactData.fullName]]</span>
+          <span class="name">[[_fullName]]</span>
         </div>
       </div>
       <div class="line-2">
@@ -188,6 +188,10 @@ Example 2 (element uses passed in data.):
         verticalAlign: {
           type: String
         },
+        _fullName: {
+          type: String,
+          computed: '_computeFullName(contactData)'
+        },
         _error: {
           type: Boolean,
           value: false
@@ -213,7 +217,11 @@ Example 2 (element uses passed in data.):
       close: function() {
         this.$.dialogBox.close();
       },
-
+      _computeFullName: function(contactData) {
+        if (contactData.givenName && contactData.familyName) {
+          return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName; 
+        }
+      },
       _computePositionTarget: function (mobile, positionTarget) {
         if (mobile) {
           this.$.dialogBox.arrow = false;
