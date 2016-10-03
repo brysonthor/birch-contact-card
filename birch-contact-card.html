@@ -218,7 +218,7 @@ Example 2 (element uses passed in data.):
         this.$.dialogBox.close();
       },
       _computeFullName: function(contactData) {
-        if (contactData.givenName && contactData.familyName) {
+        if (contactData && contactData.givenName && contactData.familyName) {
           return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName; 
         }
       },
