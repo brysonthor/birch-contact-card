@@ -27,6 +27,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <p>An example of <code>&lt;birch-contact-card&gt;</code>:</p>
 
+    <div>
+      <label for="langPicker">Choose page language: </label>
+      <select id="langPicker">
+        <option selected>en</option>
+        <option>es</option>
+        <option>fr</option>
+        <option>ko</option>
+      </select>
+    </div>
+
+    <br>
+
     <button is='fs-button' id="close">Close</button>
     <button is='fs-button' id="toggleData">Toggle Data</button>
     <button is='fs-button' id="open">Open</button>
@@ -63,6 +75,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       toggleData.addEventListener('click', function(){
         el.contactData = (el.contactData.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
         // el.contactCisId = (el.contactCisId == "cis.user.MMMM-MM4J") ? "cis.user.MMMM-6V9K" :  "cis.user.MMMM-MM4J";
+      });
+
+      var langPicker = document.querySelector('#langPicker');
+      langPicker.addEventListener('change', function() {
+        document.querySelector('birch-contact-card').language = langPicker.value;
       });
 
     </script>
