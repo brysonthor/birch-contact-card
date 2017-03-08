@@ -30,7 +30,7 @@ Example 1 (element generates data):
 
     <birch-contact-card generate-contact-data contact-cis-id="cis.user.MM9N-RS71">
     </birch-contact-card>
-
+    
     <script>
       var contactCard = document.querySelector('birch-contact-card');
       contactCard.addEventListener('click', function(e){
@@ -39,7 +39,7 @@ Example 1 (element generates data):
     </script>
 
 Example 2 (element uses passed in data.):
-
+    
     <script>
       var contactCard = document.querySelector('birch-contact-card');
       function contributorNameClickHandler(e){
@@ -58,6 +58,7 @@ Example 2 (element uses passed in data.):
   <style include='fs-styles'></style>
   <link rel="import" type="css" href="birch-contact-card.css">
   <template>
+    <wc-i18n-src locale='[[lang]]' locale-dir='[[localeDir()]]' domain='birch-contact-card'></wc-i18n-src>
     <iron-ajax id="getContactInfoReq"
       url="[[ajaxBase]]/ftuser/contacts/[[contactCisId]]"
       headers='[[authHeaders]]'
@@ -70,10 +71,10 @@ Example 2 (element uses passed in data.):
     <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
-      <div id="innerDialog" class="body" content hidden="[[_error]]">
+      <div id="innerDialog" class="body" content hidden="[[_error]]">     
       <div class="line-1">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('full_name_label')]]</small></p>
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
           <span class="name">[[_fullName]]</span>
@@ -81,7 +82,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-2">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('contact_name_label')]]</small></p>
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
           <span class="name">[[contactData.contactName]]</span>
@@ -89,15 +90,15 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-3">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('email_address_label')]]</small></p>
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
           <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
         </div>
-      </div>
+      </div>   
       <div class="line-4">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('phone_number_label')]]</small></p>
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
           <span class="name">[[contactData.phoneNumber]]</small></span>
@@ -105,19 +106,19 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-5">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('mailing_address_label')]]</small></p>
+          <p class="name-heading"><small><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></small></p>
         </div>
         <div class="right-col">
           <p id="address" class="name">{{contactData.mailingAddress}}</p>
         </div>
       </div>
       <div class="send-button">
-        <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage">[[i18n('send_message')]]</button>
+        <button is='fs-button' type="button" option="minor" class="message-button" on-tap="_showSendMessage"><wc-i18n key='birch-contact-card.send_message'></wc-i18n></button>
       </div>
       </div>
       <div id="error" hidden="[[!_error]]">
         <div class="fs-alert fs-alert--error">
-          <p><span id="errorMessageText">[[i18n('error')]]</span></p>
+          <p><wc-i18n id="errorMessageText" key='birch-contact-card.error'></wc-i18n></p>
         </div>
       </div>
     </cedar-dialog>
@@ -130,7 +131,7 @@ Example 2 (element uses passed in data.):
       behaviors: [
         OakAJAXBehavior,
         OakI18nBehavior,
-        WCI18n()
+        WCI18nBehavior
       ],
 
       properties: {
@@ -155,14 +156,14 @@ Example 2 (element uses passed in data.):
           type: Boolean,
           value: true
         },
-        /**
-         * Set on element if you want this element to request the contact data.
+        /** 
+         * Set on element if you want this element to request the contact data. 
         **/
         generateContactData: {
           type: Boolean,
           value: false
         },
-        /**
+        /** 
          * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "left", "right", "auto"
         **/
         horizontalAlign: {
@@ -181,7 +182,7 @@ Example 2 (element uses passed in data.):
         positionTarget: {
           type: Object
         },
-        /**
+        /** 
          * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "top", "bottom", "auto"
         **/
         verticalAlign: {
@@ -210,7 +211,7 @@ Example 2 (element uses passed in data.):
         this.$.dialogBox.open();
       },
 
-      /**
+      /** 
        * Method for closing the modal.
       **/
       close: function() {
@@ -218,7 +219,7 @@ Example 2 (element uses passed in data.):
       },
       _computeFullName: function(contactData) {
         if (contactData && contactData.givenName && contactData.familyName) {
-          return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName;
+          return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName; 
         }
       },
       _computePositionTarget: function (mobile, positionTarget) {
@@ -267,8 +268,8 @@ Example 2 (element uses passed in data.):
       _toggleLoading: function(boolean) {
         this.loading = boolean;
         var hideOrShow = (boolean) ? "hidden" : "visible"
-        this.$.innerDialog.style.visibility = hideOrShow;
-        this.$.heading.style.visibility = hideOrShow;
+        this.$.innerDialog.style.visibility = hideOrShow;  
+        this.$.heading.style.visibility = hideOrShow;  
       },
 
       _triggerContactRequest: function() {
