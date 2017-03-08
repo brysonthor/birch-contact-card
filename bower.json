@@ -1,6 +1,6 @@
 {
   "name": "birch-contact-card",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "authors": [
     "Anonymous <anonymous@example.com>"
   ],
@@ -26,7 +26,7 @@
     "cedar-dialog": "FamilySearchElements/cedar-dialog#adding-dialog",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "liechtym/fs-styles",
-    "birch-message": "FamilySearchElements/birch-message"
+    "birch-message": "FamilySearchElements/birch-message#1.x"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
