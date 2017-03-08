@@ -26,7 +26,7 @@
     "cedar-dialog": "FamilySearchElements/cedar-dialog#adding-dialog",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "liechtym/fs-styles",
-    "birch-message": "FamilySearchElements/birch-message#i18n-v2"
+    "birch-message": "FamilySearchElements/birch-message#2.x"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
