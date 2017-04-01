@@ -32,6 +32,10 @@
   height:300px;
 }
 
+#dialogBox {
+  width: 421px;
+}
+
 #dialogBox .heading {
   position: relative;
   height: 24px;

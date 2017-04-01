@@ -41,7 +41,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
     <script>
-      var el = document.querySelector('birch-contact-card');
+      var dialog = document.querySelector('birch-contact-card');
       var open = document.getElementById('open');
       var dataSet1 = {"id":"cis.user.MMMM-MM4J","cpUserId":"MMDZ-878","contactName":"heatonra227","displayName":null,"email":"phonyemail@hotmail.com","alternateEmail":null,"phoneNumber":"2348092394","mailingAddress":"123 Batman Lane.\nGotham","preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":"USA"};
       var dataSet2 = {"id":"cis.user.MMMM-JSJQ","cpUserId":"MMY8-X3M","contactName":"WenH","displayName":null,"email":null,"alternateEmail":null,"phoneNumber":null,"mailingAddress":null,"preferredLanguage":"en","fullName":null,"aliases":[],"givenName":null,"familyName":null,"country":null};
@@ -49,20 +49,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // el.contactData = dataSet1;
 
       open.addEventListener('click', function(e){
-        if (!el.contactData || !el.contactData.id) el.contactData = dataSet1;
-        el.positionTarget = open;
-        el.open();
+        if (Object.keys(dialog.contactData).length === 0) dialog.contactData = dataSet1;
+        dialog.open(e);
       });
 
       var close = document.getElementById('close');
       close.addEventListener('click', function(){
-        el.close();
+        dialog.close();
       });
 
       var toggleData = document.getElementById('toggleData');
       toggleData.addEventListener('click', function(){
-        el.contactData = (el.contactData.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
-        // el.contactCisId = (el.contactCisId == "cis.user.MMMM-MM4J") ? "cis.user.MMMM-6V9K" :  "cis.user.MMMM-MM4J";
+        dialog.contactData = (dialog.contactData.id === "cis.user.MMMM-MM4J") ? dataSet2 : dataSet1;
       });
 
     </script>

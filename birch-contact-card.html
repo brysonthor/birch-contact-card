@@ -10,11 +10,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
-<link rel="import" href="../iron-media-query/iron-media-query.html">
 <link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../wc-i18n/wc-i18n.html">
-<link rel="import" href="../cedar-dialog/cedar-dialog.html">
+<link rel="import" href="../dialog-el/fs-dialog.html">
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
@@ -68,7 +67,7 @@ Example 2 (element uses passed in data.):
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
     <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
-    <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
+    <fs-dialog id="dialogBox" arrow-direction="left">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">     
@@ -121,7 +120,7 @@ Example 2 (element uses passed in data.):
           <p><wc-i18n id="errorMessageText" key='birch-contact-card.error'></wc-i18n></p>
         </div>
       </div>
-    </cedar-dialog>
+    </fs-dialog>
   </template>
 
   <script>
@@ -207,8 +206,9 @@ Example 2 (element uses passed in data.):
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        if (e) this.positionTarget = e.currentTarget;
-        this.$.dialogBox.open();
+        this.$.dialogBox.style.left =  e.pageX + "px";
+        this.$.dialogBox.style.top = e.pageY + "px";
+        this.$.dialogBox.show(true);
       },
 
       /** 

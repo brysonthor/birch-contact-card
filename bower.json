@@ -23,17 +23,16 @@
     "oak-i18n-behavior": "FamilySearchElements/oak-i18n-behavior",
     "oak-ajax-behavior": "familysearchelements/oak-ajax-behavior",
     "iron-ajax": "^1.4.3",
-    "cedar-dialog": "FamilySearchElements/cedar-dialog#adding-dialog",
+    "dialog-el": "fs-webdev/dialog-el",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "liechtym/fs-styles",
-    "birch-message": "FamilySearchElements/birch-message"
+    "birch-message": "FamilySearchElements/birch-message#1.x"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "^4.0.0"
   },
   "resolutions": {
-    "polymer": "^1.2.1",
-    "cedar-dialog": "adding-dialog"
+    "polymer": "^1.2.1"
   }
 }
