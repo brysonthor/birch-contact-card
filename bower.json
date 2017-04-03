@@ -25,14 +25,15 @@
     "iron-ajax": "^1.4.3",
     "dialog-el": "fs-webdev/dialog-el",
     "fs-button": "jshcrowthe/fs-button",
-    "fs-styles": "liechtym/fs-styles",
-    "birch-message": "FamilySearchElements/birch-message#1.x"
+    "fs-styles": "fs-webdev/fs-styles",
+    "birch-message": "FamilySearchElements/birch-message#version-one"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "web-component-tester": "^4.0.0"
   },
   "resolutions": {
-    "polymer": "^1.2.1"
+    "polymer": "^1.2.1",
+    "promise-polyfill": "^6.0.1"
   }
 }
