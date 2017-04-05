@@ -66,7 +66,7 @@ Example 2 (element uses passed in data.):
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
-    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
+    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
     <fs-dialog id="dialogBox" arrow-direction="left">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
@@ -154,6 +154,13 @@ Example 2 (element uses passed in data.):
         dataRefresh: {
           type: Boolean,
           value: true
+        },
+        /**
+          Set to true to remove the "about" section in the messaging dialog
+        **/
+        disableAbout: {
+          type: Boolean,
+          value: false
         },
         /** 
          * Set on element if you want this element to request the contact data. 
