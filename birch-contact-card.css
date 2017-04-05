@@ -13,7 +13,7 @@
 }
 
 #dialogBox {
-  width: 421px;
+  width: 430px;
 }
 
 #dialogBox .heading {
@@ -45,7 +45,7 @@
   display: inline-block;
   margin-right: 15px;
   text-align: right;
-  width: 104px;
+  width: 111px;
   height: 39px;
 }
 
@@ -62,7 +62,14 @@
   overflow: hidden;
 }
 
+#innerDialog .name-heading {
+  color: #666662;
+}
+
 @media all and (max-width: 767px) {
+  #dialogBox {
+    width: 375px;
+  }
   #innerDialog .left-col {
     margin-right: 2%;
     width: 37%;
@@ -71,6 +78,12 @@
     width: 58%;
   }
 
+}
+
+@media all and (max-width: 380px) {
+  #dialogBox {
+    width: 315px;
+  }
 }
 
 #innerDialog .send-button {

@@ -213,6 +213,7 @@ Example 2 (element uses passed in data.):
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
+        this.classList.add("contact-card-open");
         this.$.dialogBox.style.left =  e.pageX + "px";
         this.$.dialogBox.style.top = e.pageY + "px";
         this.$.dialogBox.show(true);
@@ -222,6 +223,7 @@ Example 2 (element uses passed in data.):
        * Method for closing the modal.
       **/
       close: function() {
+        this.classList.remove("contact-card-open");
         this.$.dialogBox.close();
       },
       _computeFullName: function(contactData) {
@@ -268,7 +270,8 @@ Example 2 (element uses passed in data.):
         }, 300);
       },
 
-      _showSendMessage:function() {
+      _showSendMessage:function(e) {
+        (e.detail.preventer) ? e.detail.preventer.stopPropagation() : e.detail.sourceEvent.stopPropagation();
         this.$.message.open();
       },
 
