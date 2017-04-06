@@ -23,7 +23,7 @@
     "oak-i18n-behavior": "FamilySearchElements/oak-i18n-behavior",
     "oak-ajax-behavior": "familysearchelements/oak-ajax-behavior",
     "iron-ajax": "^1.4.3",
-    "dialog-el": "liechtym/dialog-el#master",
+    "dialog-el": "fs-webdev/dialog-el",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "fs-webdev/fs-styles",
     "birch-message": "FamilySearchElements/birch-message#version-one"
