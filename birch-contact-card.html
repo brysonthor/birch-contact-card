@@ -73,7 +73,7 @@ Example 2 (element uses passed in data.):
       <div id="innerDialog" class="body" content hidden="[[_error]]">     
       <div class="line-1">
         <div class="left-col">
-          <p class="name-heading"><small><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></small></p>
+          <p class="name-heading"><wc-i18n key='birch-contact-card.full_name_label'></wc-i18n></p>
         </div>
         <div class="right-col">
           <span class="name">[[_fullName]]</span>
@@ -81,7 +81,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-2">
         <div class="left-col">
-          <p class="name-heading"><small><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></small></p>
+          <p class="name-heading"><wc-i18n key='birch-contact-card.contact_name_label'></wc-i18n></p>
         </div>
         <div class="right-col">
           <span class="name">[[contactData.contactName]]</span>
@@ -89,7 +89,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-3">
         <div class="left-col">
-          <p class="name-heading"><small><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></small></p>
+          <p class="name-heading"><wc-i18n key='birch-contact-card.email_address_label'></wc-i18n></p>
         </div>
         <div class="right-col">
           <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
@@ -97,15 +97,15 @@ Example 2 (element uses passed in data.):
       </div>   
       <div class="line-4">
         <div class="left-col">
-          <p class="name-heading"><small><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></small></p>
+          <p class="name-heading"><wc-i18n key='birch-contact-card.phone_number_label'></wc-i18n></p>
         </div>
         <div class="right-col">
-          <span class="name">[[contactData.phoneNumber]]</small></span>
+          <span class="name">[[contactData.phoneNumber]]</span>
         </div>
       </div>
       <div class="line-5">
         <div class="left-col">
-          <p class="name-heading"><small><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></small></p>
+          <p class="name-heading"><wc-i18n key='birch-contact-card.mailing_address_label'></wc-i18n></p>
         </div>
         <div class="right-col">
           <p id="address" class="name">{{contactData.mailingAddress}}</p>

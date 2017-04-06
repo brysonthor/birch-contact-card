@@ -25,7 +25,7 @@
     "iron-ajax": "^1.4.3",
     "dialog-el": "fs-webdev/dialog-el",
     "fs-button": "jshcrowthe/fs-button",
-    "fs-styles": "fs-webdev/fs-styles",
+    "fs-styles": "fs-webdev/fs-styles#3.x",
     "birch-message": "FamilySearchElements/birch-message#version-one"
   },
   "devDependencies": {
