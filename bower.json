@@ -23,6 +23,7 @@
     "oak-i18n-behavior": "FamilySearchElements/oak-i18n-behavior",
     "oak-ajax-behavior": "familysearchelements/oak-ajax-behavior",
     "iron-ajax": "^1.4.3",
+    "iron-media-query": "PolymerElements/iron-media-query#~1.0.8",
     "dialog-el": "fs-webdev/dialog-el",
     "fs-button": "jshcrowthe/fs-button",
     "fs-styles": "fs-webdev/fs-styles#3.x",
@@ -34,6 +35,7 @@
   },
   "resolutions": {
     "polymer": "^1.2.1",
-    "promise-polyfill": "^6.0.1"
+    "promise-polyfill": "^6.0.1",
+    "fs-styles": "3.x"
   }
 }

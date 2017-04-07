@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-ajax/iron-ajax.html">
+<link rel="import" href="../iron-media-query/iron-media-query.html">
 <link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../wc-i18n/wc-i18n.html">
@@ -66,8 +67,9 @@ Example 2 (element uses passed in data.):
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
+    <iron-media-query query="(max-width: 600px)" query-matches="{{isMobile}}"></iron-media-query>
     <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
-    <fs-dialog id="dialogBox" arrow-direction="left">
+    <fs-dialog id="dialogBox" arrow-direction="left" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">     

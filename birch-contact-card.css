@@ -8,8 +8,18 @@
   margin: 16px 9px 0px;
 }
 
+@media all and (max-width: 600px) {
+  #innerDialog {
+    width: 303px;
+  }
+}
+
 #error {
   height:300px;
+}
+
+#dialogBox {
+  width: 430px;
 }
 
 #dialogBox {
