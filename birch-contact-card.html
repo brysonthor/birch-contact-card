@@ -14,7 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../wc-i18n/wc-i18n.html">
-<link rel="import" href="../cedar-dialog/cedar-dialog.html">
+<link rel="import" href="../dialog-el/fs-dialog.html">
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
@@ -66,14 +66,15 @@ Example 2 (element uses passed in data.):
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
-    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
-    <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
+    <iron-media-query query="(max-width: 600px)" query-matches="{{isMobile}}"></iron-media-query>
+    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
+    <fs-dialog id="dialogBox" arrow-direction="left" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">
       <div class="line-1">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('full_name_label')]]</small></p>
+          <p class="name-heading">[[i18n('full_name_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name">[[_fullName]]</span>
@@ -81,7 +82,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-2">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('contact_name_label')]]</small></p>
+          <p class="name-heading">[[i18n('contact_name_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name">[[contactData.contactName]]</span>
@@ -89,7 +90,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-3">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('email_address_label')]]</small></p>
+          <p class="name-heading">[[i18n('email_address_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
@@ -97,15 +98,15 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-4">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('phone_number_label')]]</small></p>
+          <p class="name-heading">[[i18n('phone_number_label')]]</p>
         </div>
         <div class="right-col">
-          <span class="name">[[contactData.phoneNumber]]</small></span>
+          <span class="name">[[contactData.phoneNumber]]</span>
         </div>
       </div>
       <div class="line-5">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('mailing_address_label')]]</small></p>
+          <p class="name-heading">[[i18n('mailing_address_label')]]</p>
         </div>
         <div class="right-col">
           <p id="address" class="name">{{contactData.mailingAddress}}</p>
@@ -120,7 +121,7 @@ Example 2 (element uses passed in data.):
           <p><span id="errorMessageText">[[i18n('error')]]</span></p>
         </div>
       </div>
-    </cedar-dialog>
+    </fs-dialog>
   </template>
 
   <script>
@@ -154,6 +155,13 @@ Example 2 (element uses passed in data.):
         dataRefresh: {
           type: Boolean,
           value: true
+        },
+        /**
+         Set to true to remove the "about" section in the messaging dialog
+        **/
+        disableAbout: {
+          type: Boolean,
+          value: false
         },
         /**
          * Set on element if you want this element to request the contact data.
@@ -206,14 +214,17 @@ Example 2 (element uses passed in data.):
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        if (e) this.positionTarget = e.currentTarget;
-        this.$.dialogBox.open();
+        this.classList.add("contact-card-open");
+        this.$.dialogBox.style.left =  e.pageX + "px";
+        this.$.dialogBox.style.top = e.pageY + "px";
+        this.$.dialogBox.show(true);
       },
 
       /**
        * Method for closing the modal.
       **/
       close: function() {
+        this.classList.remove("contact-card-open");
         this.$.dialogBox.close();
       },
       _computeFullName: function(contactData) {
@@ -260,7 +271,8 @@ Example 2 (element uses passed in data.):
         }, 300);
       },
 
-      _showSendMessage:function() {
+      _showSendMessage:function(e) {
+        (e.detail.preventer) ? e.detail.preventer.stopPropagation() : e.detail.sourceEvent.stopPropagation();
         this.$.message.open();
       },
 
