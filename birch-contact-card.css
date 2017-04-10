@@ -13,6 +13,12 @@
   }
 }
 
+@media all and (max-width: 360px) {
+  #innerDialog {
+    width: 82vw;
+  }
+}
+
 #error {
   height:300px;
 }
