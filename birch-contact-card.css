@@ -15,7 +15,7 @@
 
 @media all and (max-width: 360px) {
   #innerDialog {
-    width: 82vw;
+    width: 85vw;
   }
 }
 
@@ -56,14 +56,14 @@
   display: inline-block;
   margin-right: 15px;
   text-align: right;
-  width: 111px;
+  width: 117px;
   height: 39px;
 }
 
 #innerDialog .right-col {
   display: inline-block;
   vertical-align: top;
-  width: 250px;
+  width: 245px;
 }
 
 #innerDialog .name {

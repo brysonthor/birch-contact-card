@@ -207,6 +207,7 @@ Example 2 (element uses passed in data.):
 
       ready: function() {
         this.listen(window, 'resize', '_handleResize');
+        this.listen(this.$.dialogBox, 'dialog-closed', 'close');
       },
 
       /**
@@ -262,13 +263,12 @@ Example 2 (element uses passed in data.):
         if (id) return [id];
       },
 
-      _handleResize: function() {
-        this.debounce('resize-debouce-arrow', function() {
-          if (this.mobile) {
-            this.$.dialogBox.arrow = false;
-            this.$.dialogBox.updateArrow();
+      _handleResize: function () {
+        this.debounce('contact-card-resize-debouce', function () {
+          if (!this.isMobile) {
+            this.close();
           }
-        }, 300);
+        }, 350);
       },
 
       _showSendMessage:function(e) {
