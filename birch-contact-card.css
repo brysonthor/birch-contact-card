@@ -7,7 +7,7 @@
   margin: 16px 9px 0px;
 }
 
-@media all and (max-width: 600px) {
+@media all and (max-width: 770px) {
   #innerDialog {
     width: 303px;
   }

@@ -66,7 +66,7 @@ Example 2 (element uses passed in data.):
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
-    <iron-media-query query="(max-width: 600px)" query-matches="{{isMobile}}"></iron-media-query>
+    <iron-media-query query="(max-width: 770px)" query-matches="{{isMobile}}"></iron-media-query>
     <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
     <fs-dialog id="dialogBox" arrow-direction="left" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
