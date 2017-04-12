@@ -19,6 +19,15 @@
   }
 }
 
+#close-icon {
+  top: 10px;
+  right: 10px;
+  opacity: 0.5;
+  transform: scale(0.7);
+  cursor: pointer;
+  position: absolute;
+}
+
 #error {
   height:300px;
 }

@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../birch-message/birch-message.html">
 <link rel="import" href="../fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
+<link rel="import" href="../styles-wc/fs-icon/fs-icon.html">
 
 <!--
 A FamilySearch element providing a dialog for viewing a contributor's contact information.
@@ -121,6 +122,7 @@ Example 2 (element uses passed in data.):
           <p><span id="errorMessageText">[[i18n('error')]]</span></p>
         </div>
       </div>
+      <fs-icon id="close-icon" icon="close" on-tap="close"></fs-icon>
     </fs-dialog>
   </template>
 
