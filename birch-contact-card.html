@@ -21,11 +21,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../styles-wc/fs-icon/fs-icon.html">
 
 <!--
-A FamilySearch element providing a dialog for viewing a contributor's contact information.
+A FamilySearch element providing a dialog and layout for viewing a contributor's contact information.
 
-This element provides the dialog alone, and does not provide the button or link to open it. You must create the triggering element, and then create a click event on it that calls the open() method on the contact card. There are two ways the contact card can know what element it should position itself relative to. 1) You pass in the event object from a click event listener into the open method. 2) You select the button/link element from the DOM, and pass it into the positionTarget property of the contact card.
+This element provides the dialog alone, and does not provide the button or link to open it. You must create the triggering element, and then add a click listener to it. For the dialog to position correctly, you must pass the click event object into the open() method. E.g. el.open(e).
 
-This element is capable of handling data in 2 ways: generating it completely when passing in a cisID, and using data provided by the client. The following examples show how to use these different methods.
+This element is capable of handling data in 2 ways: 1) having the element itself generate the data by passing in a cisID or 2) passing in the contactData that has been pre-generated. The following examples show how to use these different methods.
 
 Example 1 (element generates data):
 
@@ -159,7 +159,7 @@ Example 2 (element uses passed in data.):
           value: true
         },
         /**
-         Set to true to remove the "about" section in the messaging dialog
+         * Set to true to remove the "about" section in the messaging dialog
         **/
         disableAbout: {
           type: Boolean,
@@ -173,33 +173,15 @@ Example 2 (element uses passed in data.):
           value: false
         },
         /**
-         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "left", "right", "auto"
-        **/
-        horizontalAlign: {
-          type: String
-        },
-        /**
           * Is set to true if data is loading.
         **/
         loading: {
           type: Boolean,
           value: false
         },
-        /**
-         * If you don't provide the event object for the click event on the open() method, provide the element you want the contact card to be positioned relative to on this property.
-        **/
-        positionTarget: {
-          type: Object
-        },
-        /**
-         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "top", "bottom", "auto"
-        **/
-        verticalAlign: {
-          type: String
-        },
         _fullName: {
           type: String,
-          computed: '_computeFullName(contactData)'
+          computed: '_computeFullName(contactData, language)'
         },
         _error: {
           type: Boolean,
@@ -213,13 +195,15 @@ Example 2 (element uses passed in data.):
       },
 
       /**
-       * Method for opening the modal. If you want to pass in the click event object to determine the positionTarget element, provide it as an argument.
+       * Method for opening the modal. Provide the click event object so the dialog knows where to position.
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
         this.classList.add("contact-card-open");
-        this.$.dialogBox.style.left =  e.pageX + "px";
-        this.$.dialogBox.style.top = e.pageY + "px";
+        if (e && e.pageX && e.pageY) {
+          this.$.dialogBox.style.left =  e.pageX + "px";
+          this.$.dialogBox.style.top = e.pageY + "px";
+        }
         this.$.dialogBox.show(true);
       },
 
@@ -230,18 +214,9 @@ Example 2 (element uses passed in data.):
         this.classList.remove("contact-card-open");
         this.$.dialogBox.close();
       },
-      _computeFullName: function(contactData) {
+      _computeFullName: function(contactData, language) {
         if (contactData && contactData.givenName && contactData.familyName) {
-          return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName;
-        }
-      },
-      _computePositionTarget: function (mobile, positionTarget) {
-        if (mobile) {
-          this.$.dialogBox.arrow = false;
-          this.horizontalAlign = undefined;
-          this.verticalAlign = undefined;
-        } else {
-          return positionTarget;
+          return (['ko','ja','zh'].indexOf(language) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName;
         }
       },
 

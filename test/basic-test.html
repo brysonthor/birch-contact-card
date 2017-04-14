@@ -29,33 +29,35 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <script>
       suite('<birch-contact-card>', function() {
         var myEl;
-        var cedarDialog;
+        var fsDialog;
         var birchMessageDialog;
 
         setup(function() {
           myEl = fixture('birch-contact-card-fixture');
-          cedarDialog = Polymer.dom(myEl.root).querySelector('#dialogBox');
+          fsDialog = Polymer.dom(myEl.root).querySelector('#dialogBox');
           var birchMessage = Polymer.dom(myEl.root).querySelector('#message');
           birchMessageDialog = Polymer.dom(birchMessage.root).querySelector('#dialogBox');
         });
 
         test('should open cedar dialog', function (done) {
-          var opened = sinon.spy(cedarDialog, 'open');
-          myEl.open();
+          var opened = sinon.spy(fsDialog, 'show');
+          var mockEvt = { pageX: 0, pageY: 0 }
+          myEl.open(mockEvt);
           expect(opened.calledOnce).to.be.true;
           done();
         });
 
         test('should close cedar dialog', function (done) {
-          var closed = sinon.spy(cedarDialog, 'close');
+          var closed = sinon.spy(fsDialog, 'close');
           myEl.close();
           expect(closed.calledOnce).to.be.true;
           done();
         });
 
         test('should open send a message modal', function (done) {
-          var opened = sinon.spy(birchMessageDialog, 'open');
-          myEl._showSendMessage();
+          var opened = sinon.spy(birchMessageDialog, 'show');
+          var mockEvt = { detail: { preventer: { stopPropagation: function(){}}}};
+          myEl._showSendMessage(mockEvt);
           expect(opened.calledOnce).to.be.true;
           done();
         });
@@ -76,7 +78,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           myEl.contactCisId = "cis.user.MM9N-RS78";
           myEl.generateContactData = true;
-          myEl.open();
+          var mockEvt = { pageX: 0, pageY: 0 }
+          myEl.open(mockEvt);
 
           server.respond()
 
@@ -102,7 +105,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           myEl.contactCisId = "cis.user.MM9N-RS78";
           myEl.generateContactData = true;
-          myEl.open();
+          var mockEvt = { pageX: 0, pageY: 0 }
+          myEl.open(mockEvt);
           server.respond()
 
           myEl.addEventListener('birch-contact-card-data-error', function(e){
@@ -126,27 +130,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           expect(myEl.$.dialogBox.arrow).to.be.false;
         });
 
-        test('when a event object is passed in, it is used to determine position target', function(){
-          var mockE = {
-            currentTarget: "target"
-          }
-          myEl.open(mockE)
-          expect(myEl.positionTarget).to.equal(mockE.currentTarget)
-        });
-
         test('returns correct users format array for data request', function() {
           var generatedArr = myEl._generateUserIdsArray("mock-cis-id");
           expect(generatedArr).to.eql(["mock-cis-id"])
         });
 
-        test('resize listener calls updateArrow()', function(){
-          var dialogBox = myEl.$.dialogBox;
-          var updateArrow = sinon.spy(dialogBox, 'updateArrow');
+        test('Dialog closes on resize on desktop', function(done) {
+          myEl.isMobile = false;
+          myEl.open();
+          expect(myEl.classList.contains('contact-card-open')).to.be.true;
           myEl._handleResize();
-          myEl.flushDebouncer('resize-debouce-arrow');
-          expect(updateArrow.calledOnce).to.be.true;
+          setTimeout(function(){
+            expect(myEl.classList.contains('contact-card-open')).to.be.false;
+            done();
+          }, 370);
         });
 
+        test('Last name comes first in CJK languages', function(){
+          var mockContactData = {
+            givenName: 'first',
+            familyName: 'last'
+          };
+          var computedName = myEl._computeFullName(mockContactData, 'ko');
+          expect(computedName).to.equal('last first');
+        });
       });
     </script>
 
