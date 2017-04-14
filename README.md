@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/FamilySearchElements/birch-contact-card.svg?branch=master)](https://travis-ci.org/FamilySearchElements/birch-contact-card)
 # birch-contact-card
 
 An element providing a starting point for your own reusable Polymer elements.
