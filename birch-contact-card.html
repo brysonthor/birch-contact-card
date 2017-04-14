@@ -186,12 +186,16 @@ Example 2 (element uses passed in data.):
         _error: {
           type: Boolean,
           value: false
+        },
+        _currentTarget:{
+          type: Object,
+          value: function() { return {}; }
         }
       },
 
       ready: function() {
         this.listen(window, 'resize', '_handleResize');
-        this.listen(this.$.dialogBox, 'dialog-closed', 'close');
+        this.listen(this.$.dialogBox, 'dialog-closed', '_removeOpenClass');
       },
 
       /**
@@ -199,20 +203,42 @@ Example 2 (element uses passed in data.):
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        this.classList.add("contact-card-open");
-        if (e && e.pageX && e.pageY) {
-          this.$.dialogBox.style.left =  e.pageX + "px";
-          this.$.dialogBox.style.top = e.pageY + "px";
+        var anotherOpen = e && e.currentTarget && Object.keys(this._currentTarget).length > 0 && e.currentTarget !== this._currentTarget;
+        if (!anotherOpen) {
+          if (this.classList.contains("contact-card-open")) {
+            this.close();
+          } else {
+            this._open(e);
+          }
+        } else {
+          this.close();
+          this.async(function(){
+            this._open(e);
+          }.bind(this), 350);
         }
-        this.$.dialogBox.show(true);
+        this._currentTarget = e.currentTarget ? e.currentTarget : {};
+        this.classList.add("contact-card-open");
       },
 
       /**
        * Method for closing the modal.
       **/
       close: function() {
+        this.debounce('contact-card-close-debounce', function(){
+          this._removeOpenClass();
+          this.$.dialogBox.close();
+        });
+      },
+      _open: function(e) {
+        if (e && e.pageX && e.pageY) {
+            this.$.dialogBox.style.left =  e.pageX + "px";
+            this.$.dialogBox.style.top = e.pageY + "px";
+        } else if (e && (!e.pageX || !e.pageY)) { console.error('Event object provided, but no coordinates available. Try passing in a pure click event object.')
+        }
+        this.$.dialogBox.show(true);
+      },
+      _removeOpenClass: function() {
         this.classList.remove("contact-card-open");
-        this.$.dialogBox.close();
       },
       _computeFullName: function(contactData, language) {
         if (contactData && contactData.givenName && contactData.familyName) {
