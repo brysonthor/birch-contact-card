@@ -69,7 +69,7 @@ Example 2 (element uses passed in data.):
       on-error="_handleContactError"></iron-ajax>
     <iron-media-query query="(max-width: 770px)" query-matches="{{isMobile}}"></iron-media-query>
     <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
-    <fs-dialog id="dialogBox" arrow-direction="left" modal="[[isMobile]]">
+    <fs-dialog id="dialogBox" allow-arrow-change arrow-direction="[[arrowDirection]]" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">
@@ -137,6 +137,13 @@ Example 2 (element uses passed in data.):
       ],
 
       properties: {
+        /**
+         * Set the default arrow direction and positioning on the card dialog. Values include left, right, top, and bottom.
+        **/
+        arrowDirection: {
+          type: String,
+          value: 'left'
+        },
         /**
          * If you set the generateContactData property to true, provide the contact's CIS ID in this property for the data request.
         **/
