@@ -31,27 +31,54 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var myEl;
         var fsDialog;
         var birchMessageDialog;
+        var mockEvt;
 
         setup(function() {
           myEl = fixture('birch-contact-card-fixture');
           fsDialog = Polymer.dom(myEl.root).querySelector('#dialogBox');
           var birchMessage = Polymer.dom(myEl.root).querySelector('#message');
           birchMessageDialog = Polymer.dom(birchMessage.root).querySelector('#dialogBox');
+          mockEvt = {
+            currentTarget: true,
+            pageX: 5, pageY: 5
+          };
         });
 
-        test('should open cedar dialog', function (done) {
+        test('should open cedar dialog', function () {
           var opened = sinon.spy(fsDialog, 'show');
-          var mockEvt = { pageX: 0, pageY: 0 }
           myEl.open(mockEvt);
           expect(opened.calledOnce).to.be.true;
-          done();
         });
 
-        test('should close cedar dialog', function (done) {
+        test('should close cedar dialog', function () {
           var closed = sinon.spy(fsDialog, 'close');
           myEl.close();
           expect(closed.calledOnce).to.be.true;
-          done();
+        });
+
+        test('should close when calling open() if card is already open', function(){
+          var closed = sinon.spy(myEl, 'close');
+          myEl.classList.add('contact-card-open');
+          myEl.open(mockEvt);
+          expect(closed.calledOnce).to.be.true;
+          expect(myEl.classList.contains('contact-card-open')).to.be.false;
+        });
+
+
+        test('should close and then reopen when calling open() if card a different card is already open', function(done){
+          var closed = sinon.spy(myEl, 'close');
+          var opened = sinon.spy(myEl, '_open');
+          myEl.classList.add('contact-card-open');
+          myEl._currentTarget = document.createElement('div');
+          mockEvt.currentTarget = document.createElement('p');
+          myEl.open(mockEvt);
+          expect(closed.calledOnce).to.be.true;
+          expect(myEl.classList.contains('contact-card-open')).to.be.false;
+          setTimeout(function(){
+            expect(opened.calledOnce).to.be.true;
+            expect(myEl.classList.contains('contact-card-open')).to.be.true;
+            done();
+          }, 370);
         });
 
         test('should open send a message modal', function (done) {
@@ -78,7 +105,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           myEl.contactCisId = "cis.user.MM9N-RS78";
           myEl.generateContactData = true;
-          var mockEvt = { pageX: 0, pageY: 0 }
           myEl.open(mockEvt);
 
           server.respond()
@@ -105,7 +131,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           myEl.contactCisId = "cis.user.MM9N-RS78";
           myEl.generateContactData = true;
-          var mockEvt = { pageX: 0, pageY: 0 }
           myEl.open(mockEvt);
           server.respond()
 
@@ -116,20 +141,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           });
         });
 
-        test('returns position target if not mobile and unpositions if mobile', function(){
-          var button = document.createElement('button');
-          myEl.positionTarget = button;
-          var returned = myEl._computePositionTarget(false, button);
-          expect(button).to.equal(returned);
-
-          //Make sure dialog isn't positioned if it's on mobile and has no arrow .
-          var returned = myEl._computePositionTarget(true, button);
-          expect(returned).to.be.undefined;
-          expect(myEl.horizontalAlign).to.be.undefined;
-          expect(myEl.verticalAlign).to.be.undefined;
-          expect(myEl.$.dialogBox.arrow).to.be.false;
-        });
-
         test('returns correct users format array for data request', function() {
           var generatedArr = myEl._generateUserIdsArray("mock-cis-id");
           expect(generatedArr).to.eql(["mock-cis-id"])
@@ -137,7 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         test('Dialog closes on resize on desktop', function(done) {
           myEl.isMobile = false;
-          myEl.open();
+          myEl.open(mockEvt);
           expect(myEl.classList.contains('contact-card-open')).to.be.true;
           myEl._handleResize();
           setTimeout(function(){

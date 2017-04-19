@@ -210,7 +210,7 @@ Example 2 (element uses passed in data.):
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        var anotherOpen = e && e.currentTarget && Object.keys(this._currentTarget).length > 0 && e.currentTarget !== this._currentTarget;
+        var anotherOpen = e && e.currentTarget && this._currentTarget instanceof Element && e.currentTarget !== this._currentTarget;
         if (!anotherOpen) {
           if (this.classList.contains("contact-card-open")) {
             this.close();
@@ -224,17 +224,14 @@ Example 2 (element uses passed in data.):
           }.bind(this), 350);
         }
         this._currentTarget = e.currentTarget ? e.currentTarget : {};
-        this.classList.add("contact-card-open");
       },
 
       /**
        * Method for closing the modal.
       **/
       close: function() {
-        this.debounce('contact-card-close-debounce', function(){
-          this._removeOpenClass();
-          this.$.dialogBox.close();
-        });
+        this._removeOpenClass();
+        this.$.dialogBox.close();
       },
       _open: function(e) {
         if (e && e.pageX && e.pageY) {
@@ -243,6 +240,7 @@ Example 2 (element uses passed in data.):
         } else if (e && (!e.pageX || !e.pageY)) { console.error('Event object provided, but no coordinates available. Try passing in a pure click event object.')
         }
         this.$.dialogBox.show(true);
+        this.classList.add("contact-card-open");
       },
       _removeOpenClass: function() {
         this.classList.remove("contact-card-open");
