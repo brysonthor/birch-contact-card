@@ -14,17 +14,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../oak-ajax-behavior/oak-ajax-behavior.html">
 <link rel="import" href="../oak-i18n-behavior/oak-i18n-behavior.html">
 <link rel="import" href="../wc-i18n/wc-i18n.html">
-<link rel="import" href="../cedar-dialog/cedar-dialog.html">
+<link rel="import" href="../dialog-el/fs-dialog.html">
 <link rel="import" href="../birch-message/birch-message.html">
-<link rel="import" href="../fs-button/fs-button.html">
+<link rel="import" href="../styles-wc/fs-button/fs-button.html">
 <link rel="import" href="../fs-styles/fs-styles.html">
+<link rel="import" href="../styles-wc/fs-icon/fs-icon.html">
 
 <!--
-A FamilySearch element providing a dialog for viewing a contributor's contact information.
+A FamilySearch element providing a dialog and layout for viewing a contributor's contact information.
 
-This element provides the dialog alone, and does not provide the button or link to open it. You must create the triggering element, and then create a click event on it that calls the open() method on the contact card. There are two ways the contact card can know what element it should position itself relative to. 1) You pass in the event object from a click event listener into the open method. 2) You select the button/link element from the DOM, and pass it into the positionTarget property of the contact card.
+This element provides the dialog alone, and does not provide the button or link to open it. You must create the triggering element, and then add a click listener to it. For the dialog to position correctly, you must pass the click event object into the open() method. E.g. el.open(e).
 
-This element is capable of handling data in 2 ways: generating it completely when passing in a cisID, and using data provided by the client. The following examples show how to use these different methods.
+This element is capable of handling data in 2 ways: 1) having the element itself generate the data by passing in a cisID or 2) passing in the contactData that has been pre-generated. The following examples show how to use these different methods.
 
 Example 1 (element generates data):
 
@@ -66,14 +67,15 @@ Example 2 (element uses passed in data.):
       handle-as="json"
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
-    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}"></birch-message>
-    <cedar-dialog id="dialogBox" position-target="{{_computePositionTarget(mobile, positionTarget)}}" vertical-align="{{verticalAlign}}" mobile="{{mobile}}" horizontal-align="[[horizontalAlign]]" arrow>
+    <iron-media-query query="(max-width: 770px)" query-matches="{{isMobile}}"></iron-media-query>
+    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
+    <fs-dialog id="dialogBox" allow-arrow-change arrow-direction="[[arrowDirection]]" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
       <div id="innerDialog" class="body" content hidden="[[_error]]">
       <div class="line-1">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('full_name_label')]]</small></p>
+          <p class="name-heading">[[i18n('full_name_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name">[[_fullName]]</span>
@@ -81,7 +83,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-2">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('contact_name_label')]]</small></p>
+          <p class="name-heading">[[i18n('contact_name_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name">[[contactData.contactName]]</span>
@@ -89,7 +91,7 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-3">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('email_address_label')]]</small></p>
+          <p class="name-heading">[[i18n('email_address_label')]]</p>
         </div>
         <div class="right-col">
           <span class="name"><a href$="mailto:{{contactData.email}}">[[contactData.email]]</a></span>
@@ -97,15 +99,15 @@ Example 2 (element uses passed in data.):
       </div>
       <div class="line-4">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('phone_number_label')]]</small></p>
+          <p class="name-heading">[[i18n('phone_number_label')]]</p>
         </div>
         <div class="right-col">
-          <span class="name">[[contactData.phoneNumber]]</small></span>
+          <span class="name">[[contactData.phoneNumber]]</span>
         </div>
       </div>
       <div class="line-5">
         <div class="left-col">
-          <p class="name-heading"><small>[[i18n('mailing_address_label')]]</small></p>
+          <p class="name-heading">[[i18n('mailing_address_label')]]</p>
         </div>
         <div class="right-col">
           <p id="address" class="name">{{contactData.mailingAddress}}</p>
@@ -120,7 +122,8 @@ Example 2 (element uses passed in data.):
           <p><span id="errorMessageText">[[i18n('error')]]</span></p>
         </div>
       </div>
-    </cedar-dialog>
+      <fs-icon id="close-icon" icon="close" on-tap="close"></fs-icon>
+    </fs-dialog>
   </template>
 
   <script>
@@ -134,6 +137,13 @@ Example 2 (element uses passed in data.):
       ],
 
       properties: {
+        /**
+         * Set the default arrow direction and positioning on the card dialog. Values include left, right, top, and bottom.
+        **/
+        arrowDirection: {
+          type: String,
+          value: 'left'
+        },
         /**
          * If you set the generateContactData property to true, provide the contact's CIS ID in this property for the data request.
         **/
@@ -156,17 +166,18 @@ Example 2 (element uses passed in data.):
           value: true
         },
         /**
+         * Set to true to remove the "about" section in the messaging dialog
+        **/
+        disableAbout: {
+          type: Boolean,
+          value: false
+        },
+        /**
          * Set on element if you want this element to request the contact data.
         **/
         generateContactData: {
           type: Boolean,
           value: false
-        },
-        /**
-         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "left", "right", "auto"
-        **/
-        horizontalAlign: {
-          type: String
         },
         /**
           * Is set to true if data is loading.
@@ -175,59 +186,68 @@ Example 2 (element uses passed in data.):
           type: Boolean,
           value: false
         },
-        /**
-         * If you don't provide the event object for the click event on the open() method, provide the element you want the contact card to be positioned relative to on this property.
-        **/
-        positionTarget: {
-          type: Object
-        },
-        /**
-         * Part of iron-fit-behavior Set preferred orientation for where the positionTarget is positioned relative to the dialog. Possible values: "top", "bottom", "auto"
-        **/
-        verticalAlign: {
-          type: String
-        },
         _fullName: {
           type: String,
-          computed: '_computeFullName(contactData)'
+          computed: '_computeFullName(contactData, language)'
         },
         _error: {
           type: Boolean,
           value: false
+        },
+        _currentTarget:{
+          type: Object,
+          value: function() { return {}; }
         }
       },
 
       ready: function() {
         this.listen(window, 'resize', '_handleResize');
+        this.listen(this.$.dialogBox, 'dialog-closed', '_removeOpenClass');
       },
 
       /**
-       * Method for opening the modal. If you want to pass in the click event object to determine the positionTarget element, provide it as an argument.
+       * Method for opening the modal. Provide the click event object so the dialog knows where to position.
       **/
       open: function(e) {
         if (this.generateContactData && !this._error && this.dataRefresh) this._triggerContactRequest();
-        if (e) this.positionTarget = e.currentTarget;
-        this.$.dialogBox.open();
+        var anotherOpen = e && e.currentTarget && this._currentTarget instanceof Element && e.currentTarget !== this._currentTarget;
+        if (!anotherOpen) {
+          if (this.classList.contains("contact-card-open")) {
+            this.close();
+          } else {
+            this._open(e);
+          }
+        } else {
+          this.close();
+          this.async(function(){
+            this._open(e);
+          }.bind(this), 350);
+        }
+        this._currentTarget = e.currentTarget ? e.currentTarget : {};
       },
 
       /**
        * Method for closing the modal.
       **/
       close: function() {
+        this._removeOpenClass();
         this.$.dialogBox.close();
       },
-      _computeFullName: function(contactData) {
-        if (contactData && contactData.givenName && contactData.familyName) {
-          return (['ko','ja','zh'].indexOf(this.lang) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName;
+      _open: function(e) {
+        if (e && e.pageX && e.pageY) {
+            this.$.dialogBox.style.left =  e.pageX + "px";
+            this.$.dialogBox.style.top = e.pageY + "px";
+        } else if (e && (!e.pageX || !e.pageY)) { console.error('Event object provided, but no coordinates available. Try passing in a pure click event object.')
         }
+        this.$.dialogBox.show(true);
+        this.classList.add("contact-card-open");
       },
-      _computePositionTarget: function (mobile, positionTarget) {
-        if (mobile) {
-          this.$.dialogBox.arrow = false;
-          this.horizontalAlign = undefined;
-          this.verticalAlign = undefined;
-        } else {
-          return positionTarget;
+      _removeOpenClass: function() {
+        this.classList.remove("contact-card-open");
+      },
+      _computeFullName: function(contactData, language) {
+        if (contactData && contactData.givenName && contactData.familyName) {
+          return (['ko','ja','zh'].indexOf(language) === -1) ? contactData.givenName + ' ' + contactData.familyName : contactData.familyName + ' ' + contactData.givenName;
         }
       },
 
@@ -251,16 +271,16 @@ Example 2 (element uses passed in data.):
         if (id) return [id];
       },
 
-      _handleResize: function() {
-        this.debounce('resize-debouce-arrow', function() {
-          if (this.mobile) {
-            this.$.dialogBox.arrow = false;
-            this.$.dialogBox.updateArrow();
+      _handleResize: function () {
+        this.debounce('contact-card-resize-debouce', function () {
+          if (!this.isMobile) {
+            this.close();
           }
-        }, 300);
+        }, 350);
       },
 
-      _showSendMessage:function() {
+      _showSendMessage:function(e) {
+        (e.detail.preventer) ? e.detail.preventer.stopPropagation() : e.detail.sourceEvent.stopPropagation();
         this.$.message.open();
       },
 
