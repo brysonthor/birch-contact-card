@@ -68,7 +68,7 @@ Example 2 (element uses passed in data.):
       on-response="_handleContactResponse"
       on-error="_handleContactError"></iron-ajax>
     <iron-media-query query="(max-width: 770px)" query-matches="{{isMobile}}"></iron-media-query>
-    <birch-message id="message" contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
+    <birch-message id="message" from-user-id=[[fromUserId]] contact-name="[[contactData.contactName]]" to-user-ids="{{_generateUserIdsArray(contactData.id)}}" disable-about="[[disableAbout]]"></birch-message>
     <fs-dialog id="dialogBox" allow-arrow-change arrow-direction="[[arrowDirection]]" modal="[[isMobile]]">
       <div class="spinner-icon" hidden="[[!loading]]"></div>
       <h4 id="heading" class="heading" header>[[contactData.contactName]]</h4>
@@ -185,6 +185,12 @@ Example 2 (element uses passed in data.):
         loading: {
           type: Boolean,
           value: false
+        },
+        /**
+         * In order to utilize a the new messaging api please provide the current logged-in users id.
+         **/
+        fromUserId: {
+          type: String
         },
         _fullName: {
           type: String,
